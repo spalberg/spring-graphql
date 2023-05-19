@@ -1,0 +1,32 @@
+type Query {
+    overviews: [Overview]
+    overview(id: ID, name: String): Overview
+    query(id: ID, name: String): MarinaQuery
+    elements: [Element]
+    element(id: ID, name: String): Element
+}
+
+type Overview {
+    id: ID!
+    name: String!
+    query: MarinaQuery!
+}
+
+type MarinaQuery {
+    id: ID!
+    name: String!
+    filterTypes: [Type]
+}
+
+type Element {
+    id: ID!
+    type: Type!
+    name: String!
+}
+
+enum Type {
+    BIER,
+    BUCH,
+    BEGUENSTIGTER,
+    MITARBEITER,
+}
