@@ -7,3 +7,5 @@ vscode:
   extensions:
     - vscjava.vscode-java-pack
     - Pivotal.vscode-boot-dev-pack
+image:
+  file: .gitpod.Dockerfile
