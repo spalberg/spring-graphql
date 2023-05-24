@@ -1,0 +1,9 @@
+tasks:
+  - init: gradle build
+ports:
+  - port: 8080
+    onOpen: open-browser
+vscode:
+  extensions:
+    - vscjava.vscode-java-pack
+    - vmware.vscode-boot-dev-pack
