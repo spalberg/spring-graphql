@@ -1,32 +1,32 @@
 type Query {
-    overviews: [Overview]
-    overview(id: ID, name: String): Overview
-    query(id: ID, name: String): MarinaQuery
-    elements: [Element]
-    element(id: ID, name: String): Element
+  overviews: [Overview]
+  overview(id: ID, name: String): Overview
+  query(id: ID, name: String): MarinaQuery
+  elements(first: Int, after: String, last: Int, before: String): [Element] # ElementConnection
+  element(id: ID, name: String): Element
 }
 
 type Overview {
-    id: ID!
-    name: String!
-    query: MarinaQuery!
+  id: ID!
+  name: String!
+  query: MarinaQuery!
 }
 
 type MarinaQuery {
-    id: ID!
-    name: String!
-    filterTypes: [Type]
+  id: ID!
+  name: String!
+  filterTypes: [Type]
 }
 
 type Element {
-    id: ID!
-    type: Type!
-    name: String!
+  id: ID!
+  type: Type!
+  name: String!
 }
 
 enum Type {
-    BIER,
-    BUCH,
-    BEGUENSTIGTER,
-    MITARBEITER,
+  BIER
+  BUCH
+  BEGUENSTIGTER
+  MITARBEITER
 }
