@@ -1,5 +1,10 @@
 tasks:
   - init: gradle build
+  - init: docker-compose pull
+  - name: Spring
+    command: gradle bootRun
+  - name: MongoDB
+    command: docker-compose up
 ports:
   - port: 8080
     onOpen: open-browser
