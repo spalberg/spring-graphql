@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
+import org.springframework.graphql.data.query.QueryByExampleDataFetcher;
+import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +25,12 @@ public class SpringGraphqlApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringGraphqlApplication.class, args);
+    }
+
+    @Bean
+    public RuntimeWiringConfigurer runtimeWiringConfigurer(ElementRepository elementRepository) {
+        return wiringBuilder -> wiringBuilder
+                .type("Query", builder -> builder.dataFetcher("elements", QueryByExampleDataFetcher.builder(elementRepository).many()));
     }
 
     @Bean

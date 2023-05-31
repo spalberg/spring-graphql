@@ -2,7 +2,12 @@ type Query {
   overviews: [Overview]
   overview(id: ID, name: String): Overview
   query(id: ID, name: String): MarinaQuery
-  elements(first: Int, after: String, last: Int, before: String): [Element] # ElementConnection
+  elements(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): ElementConnection
   element(id: ID, name: String): Element
 }
 

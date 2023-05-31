@@ -11,11 +11,15 @@ import org.dataloader.DataLoader;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.execution.BatchLoaderRegistry;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -28,7 +32,8 @@ public class GraphQlController {
     private final MarinaQueryRepository marinaQueryRepository;
     private final ElementRepository elementRepository;
 
-    GraphQlController(OverviewRepository overviewRepository, MarinaQueryRepository marinaQueryRepository, ElementRepository elementRepository, BatchLoaderRegistry batchLoaderRegistry) {
+    GraphQlController(OverviewRepository overviewRepository, MarinaQueryRepository marinaQueryRepository,
+            ElementRepository elementRepository, BatchLoaderRegistry batchLoaderRegistry) {
         this.overviewRepository = overviewRepository;
         this.marinaQueryRepository = marinaQueryRepository;
         this.elementRepository = elementRepository;
@@ -52,12 +57,7 @@ public class GraphQlController {
     @QueryMapping
     Mono<Overview> overview(@Argument Optional<ObjectId> id, @Argument Optional<String> name) {
         return Mono.justOrEmpty(
-                id.map(overviewRepository::findById).orElseGet(() -> name.map(overviewRepository::findByName).flatMap(Function.identity()))
-        );
-    }
-
-    @QueryMapping
-    Flux<Element> elements() {
-        return Flux.fromIterable(elementRepository.findAll());
+                id.map(overviewRepository::findById)
+                        .orElseGet(() -> name.map(overviewRepository::findByName).flatMap(Function.identity())));
     }
 }
