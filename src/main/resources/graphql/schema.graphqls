@@ -1,0 +1,109 @@
+type Query {
+    properties: [Property!]!
+    propertyById(id: ID!): Property
+    types: [Type!]!
+    typeById(id: ID!): Type
+    elements(typeId: ID): [Element!]!
+    elementById(id: ID!): Element
+}
+
+scalar DateTime
+
+### Property
+
+interface BaseProperty {
+    id: ID!
+    name: String!
+    description: String!
+}
+
+type TextProperty implements BaseProperty {
+    id: ID!
+    name: String!
+    description: String!
+    autoTrim: Boolean!
+    maxLength: Int
+}
+
+type IntegerProperty implements BaseProperty {
+    id: ID!
+    name: String!
+    description: String!
+    max: Int
+    min: Int
+}
+
+type BooleanProperty implements BaseProperty {
+    id: ID!
+    name: String!
+    description: String!
+}
+
+type LinkedElementProperty implements BaseProperty {
+    id: ID!
+    name: String!
+    description: String!
+    typeRestrictions: [Type!]
+}
+
+union Property = TextProperty | IntegerProperty | BooleanProperty | LinkedElementProperty
+
+### Type
+
+type Type {
+    id: ID!
+    name: String!
+    description: String!
+    properties: [Property!]!
+}
+
+### Attribute and Value
+
+type TextValue {
+    value: String!
+}
+
+type TextAttribute {
+    property: TextProperty!
+    value: TextValue
+}
+
+type IntegerValue {
+    value: Int!
+}
+
+type IntegerAttribute {
+    property: IntegerProperty!
+    value: IntegerValue
+}
+
+type BooleanValue {
+    value: Boolean!
+}
+
+type BooleanAttribute {
+    property: BooleanProperty!
+    value: BooleanValue
+}
+
+type LinkedElementValue {
+    elementId: ID!
+    typeId: ID!
+    element: Element
+}
+
+type LinkedElementAttribute {
+    property: LinkedElementProperty!
+    value: LinkedElementValue
+}
+
+union Attribute = TextAttribute | IntegerAttribute | BooleanAttribute | LinkedElementAttribute
+
+### Element
+
+type Element {
+    id: ID!
+    type: Type!
+    attributes: [Attribute!]!
+    createdAt: DateTime!
+}
