@@ -58,8 +58,12 @@ tasks.withType<Test> {
 }
 
 tasks.generateJava {
-	schemaPaths.add("${projectDir}/src/main/resources/graphql-client")
+	generateDataTypes = true
+	schemaPaths = mutableListOf(
+			"${projectDir}/src/main/resources/graphql",
+			"${projectDir}/src/main/resources/graphql-client",
+	)
 	packageName = "de.palberg.graphql.codegen"
-	generateClient = true
+	generateClientv2 = true
+	generateDataTypes = true
 }
-

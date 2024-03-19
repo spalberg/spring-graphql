@@ -1,0 +1,88 @@
+{
+    alice: elementById(id: "alice") {
+        ...ElementFragment
+    }
+    bob: elementById(id: "bob") {
+        ...ElementFragment
+    }
+    eve: elementById(id: "eve") {
+        ...ElementFragment
+    }
+}
+
+fragment ElementFragment on Element {
+    id
+    type {
+        name
+    }
+    attributes {
+        ...AttributeFragment
+    }
+    createdAt
+}
+
+fragment AttributeFragment on Attribute {
+    __typename
+    ... on TextAttribute {
+        property {
+            ...PropertyFragment
+        }
+        value {
+            textValue: value
+        }
+    }
+    ... on IntegerAttribute {
+        property {
+            ...PropertyFragment
+        }
+        value {
+            integerValue: value
+        }
+    }
+    ... on BooleanAttribute {
+        property {
+            ...PropertyFragment
+        }
+        value {
+            booleanValue: value
+        }
+    }
+    ... on LinkedElementAttribute {
+        property {
+            ...PropertyFragment
+        }
+        value {
+            elementId
+            typeId
+            element {
+                id
+                type {
+                    name
+                }
+            }
+        }
+    }
+}
+
+fragment PropertyFragment on Property {
+    __typename
+    ... on BaseProperty {
+        id
+        name
+        description
+    }
+    ... on TextProperty {
+        autoTrim
+        maxLength
+    }
+    ... on IntegerProperty {
+        max
+        min
+    }
+    ... on LinkedElementProperty {
+        typeRestrictions {
+            id
+            name
+        }
+    }
+}
